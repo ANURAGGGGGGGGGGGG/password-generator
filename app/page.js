@@ -25,45 +25,45 @@ export default function Home() {
 
   useEffect(() => {
     let score = 0;
-    
+
     score += Math.min(length / 32 * 50, 50);
-    
+
     if (uppercase) score += 12.5;
     if (lowercase) score += 12.5;
     if (numbers) score += 12.5;
     if (symbols) score += 12.5;
-    
+
     setStrength(Math.round(score));
   }, [length, uppercase, lowercase, numbers, symbols]);
 
   function generatePassword() {
     setIsGenerating(true);
-    
+
     let chars = "";
     if (uppercase) chars += UPPERCASE;
     if (lowercase) chars += LOWERCASE;
     if (numbers) chars += NUMBERS;
     if (symbols) chars += SYMBOLS;
-    
+
     if (!chars) return setPassword("");
-    
+
     let pwd = "";
     for (let i = 0; i < length; i++) {
       pwd += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    
+
     setPassword(pwd);
     setCopied(false);
-    
+
     setTimeout(() => setIsGenerating(false), 500);
   }
 
   function copyToClipboard() {
     if (!password) return;
-    
+
     navigator.clipboard.writeText(password);
     setCopied(true);
-    
+
     if (passwordRef.current) {
       passwordRef.current.classList.add("animate-pulse");
       setTimeout(() => {
@@ -72,7 +72,7 @@ export default function Home() {
         }
       }, 1000);
     }
-    
+
     setTimeout(() => setCopied(false), 2000);
   }
 
@@ -103,16 +103,16 @@ export default function Home() {
           </h1>
           <p className="text-blue-200">Create secure passwords instantly</p>
         </div>
-        
+
         <div className="flex flex-col gap-6">
           <div className="relative">
-            <div 
+            <div
               ref={passwordRef}
               className="w-full px-4 py-3 rounded-lg bg-gray-900 text-white font-mono text-lg tracking-wider border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
             >
               {showPassword ? password : password.replace(/./g, "•")}
             </div>
-            
+
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
               <button
                 onClick={() => setShowPassword(!showPassword)}
@@ -131,7 +131,7 @@ export default function Home() {
                   </svg>
                 )}
               </button>
-              
+
               <button
                 onClick={generatePassword}
                 disabled={isGenerating}
@@ -150,7 +150,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          
+
           <div className="bg-gray-900/50 rounded-lg p-3">
             <div className="flex justify-between mb-2">
               <span className="text-sm font-medium text-gray-300">Password Strength</span>
@@ -159,19 +159,19 @@ export default function Home() {
               </span>
             </div>
             <div className="w-full bg-gray-700 rounded-full h-2.5">
-              <div 
+              <div
                 className={`h-2.5 rounded-full ${getStrengthColor()} transition-all duration-500`}
                 style={{ width: `${strength}%` }}
               ></div>
             </div>
           </div>
-          
-          <div className="bg-gray-900/50 rounded-lg p-4">
-            <div className="flex flex-col gap-4">
-              <label className="flex flex-col gap-2 text-white">
+
+          <div className="bg-gray-900/50 rounded-lg p-3 sm:p-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <label className="flex flex-col gap-1 sm:gap-2 text-white">
                 <div className="flex justify-between">
-                  <span>Password Length</span>
-                  <span className="text-blue-300 font-bold">{length}</span>
+                  <span className="text-sm sm:text-base">Password Length</span>
+                  <span className="text-blue-300 font-bold text-sm sm:text-base">{length}</span>
                 </div>
                 <input
                   type="range"
@@ -179,70 +179,69 @@ export default function Home() {
                   max={32}
                   value={length}
                   onChange={e => setLength(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  className="w-full h-2 sm:h-2.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
                 />
               </label>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <label className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                <label className="flex items-center gap-2 p-1.5 sm:p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
                   <div className="relative">
-                    <input 
-                      type="checkbox" 
-                      checked={uppercase} 
+                    <input
+                      type="checkbox"
+                      checked={uppercase}
                       onChange={e => setUppercase(e.target.checked)}
                       className="sr-only"
                     />
-                    <div className={`block w-10 h-5 rounded-full transition-colors ${uppercase ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
-                    <div className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform ${uppercase ? 'transform translate-x-5' : ''}`}></div>
+                    <div className={`block w-9 h-4.5 sm:w-10 sm:h-5 rounded-full transition-colors ${uppercase ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                    <div className={`absolute left-0.5 top-0.5 sm:left-1 sm:top-1 bg-white w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full transition-transform ${uppercase ? 'transform translate-x-4.5 sm:translate-x-5' : ''}`}></div>
                   </div>
-                  <span className="text-white">Uppercase</span>
+                  <span className="text-sm sm:text-base text-white">Uppercase</span>
                 </label>
-                
-                <label className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
+
+                <label className="flex items-center gap-2 p-1.5 sm:p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
                   <div className="relative">
-                    <input 
-                      type="checkbox" 
-                      checked={lowercase} 
+                    <input
+                      type="checkbox"
+                      checked={lowercase}
                       onChange={e => setLowercase(e.target.checked)}
                       className="sr-only"
                     />
-                    <div className={`block w-10 h-5 rounded-full transition-colors ${lowercase ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
-                    <div className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform ${lowercase ? 'transform translate-x-5' : ''}`}></div>
+                    <div className={`block w-9 h-4.5 sm:w-10 sm:h-5 rounded-full transition-colors ${lowercase ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                    <div className={`absolute left-0.5 top-0.5 sm:left-1 sm:top-1 bg-white w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full transition-transform ${lowercase ? 'transform translate-x-4.5 sm:translate-x-5' : ''}`}></div>
                   </div>
-                  <span className="text-white">Lowercase</span>
+                  <span className="text-sm sm:text-base text-white">Lowercase</span>
                 </label>
-                
-                <label className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
+
+                <label className="flex items-center gap-2 p-1.5 sm:p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
                   <div className="relative">
-                    <input 
-                      type="checkbox" 
-                      checked={numbers} 
+                    <input
+                      type="checkbox"
+                      checked={numbers}
                       onChange={e => setNumbers(e.target.checked)}
                       className="sr-only"
                     />
-                    <div className={`block w-10 h-5 rounded-full transition-colors ${numbers ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
-                    <div className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform ${numbers ? 'transform translate-x-5' : ''}`}></div>
+                    <div className={`block w-9 h-4.5 sm:w-10 sm:h-5 rounded-full transition-colors ${numbers ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                    <div className={`absolute left-0.5 top-0.5 sm:left-1 sm:top-1 bg-white w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full transition-transform ${numbers ? 'transform translate-x-4.5 sm:translate-x-5' : ''}`}></div>
                   </div>
-                  <span className="text-white">Numbers</span>
+                  <span className="text-sm sm:text-base text-white">Numbers</span>
                 </label>
-                
-                <label className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
+
+                <label className="flex items-center gap-2 p-1.5 sm:p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors cursor-pointer">
                   <div className="relative">
-                    <input 
-                      type="checkbox" 
-                      checked={symbols} 
-                      onChange={e => setSymbols(e.target.checked)}
-                      className="sr-only"
+                    <input
+                      type="checkbox"
+                      checked={symbols}
+                      onChange={e => setSymbols(e.target.checked)} className="sr-only"
                     />
-                    <div className={`block w-10 h-5 rounded-full transition-colors ${symbols ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
-                    <div className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform ${symbols ? 'transform translate-x-5' : ''}`}></div>
+                    <div className={`block w-9 h-4.5 sm:w-10 sm:h-5 rounded-full transition-colors ${symbols ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+                    <div className={`absolute left-0.5 top-0.5 sm:left-1 sm:top-1 bg-white w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full transition-transform ${symbols ? 'transform translate-x-4.5 sm:translate-x-5' : ''}`}></div>
                   </div>
-                  <span className="text-white">Symbols</span>
+                  <span className="text-sm sm:text-base text-white">Symbols</span>
                 </label>
               </div>
             </div>
           </div>
-          
+
           <div className="flex gap-3">
             <button
               onClick={generatePassword}
@@ -265,13 +264,12 @@ export default function Home() {
                 </>
               )}
             </button>
-            
+
             <button
               onClick={copyToClipboard}
               disabled={!password}
-              className={`flex-1 flex items-center justify-center gap-2 ${
-                copied ? "bg-green-600 hover:bg-green-700" : "bg-gray-700 hover:bg-gray-600"
-              } text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50`}
+              className={`flex-1 flex items-center justify-center gap-2 ${copied ? "bg-green-600 hover:bg-green-700" : "bg-gray-700 hover:bg-gray-600"
+                } text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50`}
             >
               {copied ? (
                 <>
@@ -292,7 +290,8 @@ export default function Home() {
             </button>
           </div>
         </div>
-        
+
+        {/* Password Tips */}
         <div className="mt-4 bg-gray-900/30 rounded-lg p-4 border border-gray-700">
           <h3 className="text-sm font-bold text-blue-300 mb-2 flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
